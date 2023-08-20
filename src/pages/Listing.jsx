@@ -18,7 +18,7 @@ function Listing() {
   useEffect(() => {
     const fetchListing = async () => {
       //console.log(params)
-      const docRef = doc(db, 'listings', params.listing) //using params.listing instead of params.listingId
+      const docRef = doc(db, 'listings', params.listingId) //using params.listing instead of params.listingId
       const docSnap = await getDoc(docRef)
 
       if (docSnap.exists()) {
@@ -29,14 +29,11 @@ function Listing() {
     }
 
     fetchListing()
-  }, [navigate, params.listing]) //if do not set generates warning
+  }, [navigate, params.listingId]) //if do not set generates warning
 
   if (loading) {
     return <Spinner />
   }
-
-  //console.log(auth.currentUser)
-  console.log(listing.userRef)
 
   return (
     <main>
@@ -98,7 +95,7 @@ function Listing() {
 
         {auth.currentUser?.uid !== listing.userRef && (
           <Link
-            to={`/contact/${listing.userRef}?listingName=${listing.name}&listingLocation=${listing.location}`}
+            to={`/contact/${listing.userRef}?listingName=${listing.name}`}
             className='primaryButton'
           >
             Contact Landlord
